@@ -4,15 +4,15 @@ import shell from "shelljs"
 import { Gpio } from 'onoff'
 
 const PATHS = {
-  root: path.join(__dirname, "../../"),
-  images: path.join(__dirname, "../../tmp/")
+  root: path.join(__dirname, "../../../../"),
+  images: path.join(__dirname, "../../../../tmp")
 }
 
 export default class Camera {
   private motionSensor: any
 
   constructor() {
-    this.motionSensor = new Gpio(17, 'in')
+    this.motionSensor = new Gpio(17, 'in', 'both')
   }
 
   public turnOn = (): string => {
