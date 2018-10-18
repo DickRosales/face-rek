@@ -7,7 +7,7 @@ tslint.json
 .github
 .prettierignore
 .vscode
-build/docs
+dist/docs
 **/*.spec.*
 coverage
 .nyc_output

@@ -3,9 +3,11 @@ build
 test
 src/**.js
 .idea/*
+.env
 
 coverage
 .nyc_output
 *.log
 
 package-lock.json
+.npmignore
