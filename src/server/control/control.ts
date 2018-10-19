@@ -31,4 +31,10 @@ export default class Control {
 
     res.send(filename)
   }
+
+  public checkMotion = (req: Request, res: Response) => {
+    console.log(req.params)
+
+    res.send(this.camera.checkMotion())
+  }
 }

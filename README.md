@@ -28,3 +28,6 @@ OR
 
 # Shutdown Raspberry pi 
 ```sudo shutdown -h now```
+
+# Restart Raspberry pi 
+```sudo reboot```

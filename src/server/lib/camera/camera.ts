@@ -7,14 +7,11 @@ rpio.init({mapping: 'gpio'});
 rpio.open(17, rpio.INPUT);
 
 const PATHS = {
-  root: path.join(__dirname, "../../../../../../"),
-  images: path.join(__dirname, "../../../../../../tmp/")
+  root: path.join(__dirname, "../../../../../"),
+  images: path.join(__dirname, "../../../../../tmp/")
 }
 
 export default class Camera {
-  private motionSensor: any
-
-
   public turnOn = (): string => {
     this.setWatcher()
 
@@ -35,6 +32,12 @@ export default class Camera {
     console.log('motion: ', this.getValue())
 
     return filename
+  }
+
+  public checkMotion = (): string => {
+    console.log('motion: ', this.getValue())
+
+    return getValue
   }
 
   private takePicture = (): string => {
