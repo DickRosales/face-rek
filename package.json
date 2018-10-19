@@ -60,9 +60,9 @@
     "express": "4.16.4",
     "lusca": "1.6.1",
     "node-fetch": "2.2.0",
-    "onoff": "3.2.2",
     "sha.js": "^2.4.11",
-    "shelljs": "0.8.2"
+    "shelljs": "0.8.2",
+    "rpio": "*"
   },
   "devDependencies": {
     "ava": "1.0.0-beta.7",

@@ -1,7 +1,10 @@
 import path from 'path'
 // import { uploadImage } from '../upload'
 import shell from "shelljs"
-import { Gpio } from 'onoff'
+// import { Gpio } from 'onoff'
+import rpio from "rpio";
+rpio.init({mapping: 'gpio'});
+rpio.open(17, rpio.INPUT);
 
 const PATHS = {
   root: path.join(__dirname, "../../../../../../"),
@@ -11,12 +14,11 @@ const PATHS = {
 export default class Camera {
   private motionSensor: any
 
-  constructor() {
-    this.motionSensor = new Gpio(17, 'in')
-  }
 
   public turnOn = (): string => {
     this.setWatcher()
+
+    console.log('motion: ', this.getValue())
 
     return 'turnOn'
   }
@@ -30,6 +32,8 @@ export default class Camera {
   public getPicture = (): string => {
     let filename = this.takePicture()
 
+    console.log('motion: ', this.getValue())
+
     return filename
   }
 
@@ -41,26 +45,22 @@ export default class Camera {
     return filename
   }
 
-  private setWatcher = (): void => {
-    this.motionSensor.watch((err, value) => {
-      if (err) {
-        throw err
-      }
+  private getValue = (): any => {
+    return rpio.read(17);
+  }
 
-      console.log('motion: ', value)
+  private setWatcher = (): void => {
+    rpio.poll(17, (pin) => {
+      console.log('motion: ', pin);
+
       let filename = this.takePicture();
 
       shell.echo(`image taken: ${filename}`);
-    })
+
+    }, rpio.POLL_HIGH);
   }
 
   private unSetWatcher = (): void => {
-    this.motionSensor.unwatch((err, value) => {
-      if (err) {
-        throw err
-      }
-
-      console.log('turned off: ', value)
-    })
+    rpio.close(17);
   }
 }
