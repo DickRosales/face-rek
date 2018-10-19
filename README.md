@@ -25,3 +25,6 @@ OR
 
 # Check free space on File System
 ```df -Bm```
+
+# Shutdown Raspberry pi 
+```sudo shutdown -h now```
