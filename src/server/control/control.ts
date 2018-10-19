@@ -35,6 +35,6 @@ export default class Control {
   public checkMotion = (req: Request, res: Response) => {
     console.log(req.params)
 
-    res.send(this.camera.checkMotion())
+    res.send(`pin value: ${this.camera.checkMotion()}`)
   }
 }

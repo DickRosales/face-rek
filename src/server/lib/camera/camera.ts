@@ -4,7 +4,7 @@ import shell from "shelljs"
 // import { Gpio } from 'onoff'
 import rpio from "rpio";
 rpio.init({mapping: 'gpio'});
-rpio.open(17, rpio.INPUT);
+rpio.open(11, rpio.INPUT);
 
 const PATHS = {
   root: path.join(__dirname, "../../../../../"),
@@ -37,7 +37,7 @@ export default class Camera {
   public checkMotion = (): string => {
     console.log('motion: ', this.getValue())
 
-    return getValue
+    return this.getValue()
   }
 
   private takePicture = (): string => {
