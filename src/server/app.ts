@@ -1,27 +1,51 @@
-// import path from 'path'
-// import { uploadImage } from './lib/upload/upload'
-// import shell from "shelljs"
 
-// const PATHS = {
-//   root: path.join(__dirname, "../../"),
-//   images: path.join(__dirname, "../../tmp/")
-// }
+import express from 'express';
+import compression from "compression"  // compresses requests
+import bodyParser from "body-parser"
+import lusca from "lusca"
+import dotenv from "dotenv"
+// import path from "path"
+// import expressValidator from "express-validator"
 
-// const execute = async () => {
+// Controllers (route handlers)
+import Control from "./control"
+const control = new Control();
 
-  // let file = `${PATHS.images}image.png`,
-      // response = await uploadImage('face-rek', file)
+// Set Env Variables
+dotenv.config()
 
-  // console.log(response)
-  // var sasUrl = blobService.getUrl(containerName, blobName, token);
-// }
+// Create Express server
+const app = express()
 
-// if (process.env.NODE_ENV === 'production') {
-//   execute()
-// }
+// Express configuration
+app.set("port", process.env.SERVER_PORT || 3000)
+app.use(compression())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(expressValidator())
+app.use(lusca.xframe("SAMEORIGIN"))
+app.use(lusca.xssProtection(true))
 
-// Run external tool synchronously
-// if (shell.exec('git commit -am "Auto-commit"').code !== 0) {
-  // shell.echo('shit fam');
-  // shell.exit(1);
-// }
+// app.use(
+//   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+// )
+
+/**
+ * API routes.
+ */
+app.get("/api/takePicture", control.takePicture )
+app.get("/api/turnOn", control.turnOn )
+app.get("/api/turnOff", control.turnOff )
+app.get("/api/checkMotion", control.checkMotion )
+
+/**
+ * Start Express server.
+ */
+app.listen(app.get("port"), () => {
+  console.log(
+    "  App is running at http://localhost:%d in %s mode",
+    app.get("port"),
+    app.get("env")
+  )
+  console.log("  Press CTRL-C to stop\n")
+})

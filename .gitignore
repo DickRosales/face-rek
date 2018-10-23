@@ -4,6 +4,8 @@ test
 src/**.js
 .idea/*
 .env
+.cache
+dist/*
 
 coverage
 .nyc_output

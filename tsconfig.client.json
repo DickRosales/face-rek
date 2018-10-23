@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/client/",
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6", "dom", "esnext.asynciterable"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "plugins": [
+      { "name": "tslint-language-service"}
+    ]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/server/**",
+    "node_modules/**",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack.config.js",
+    "jest",
+    "src/setupTests.ts",
+    "src/config",
+    "typedoc.js"
+  ],
+  "types": [
+    "./src/typings"
+  ]
+}

@@ -4,7 +4,7 @@ import shell from "shelljs"
 // import { Gpio } from 'onoff'
 import rpio from "rpio";
 rpio.init({mapping: 'gpio'});
-rpio.open(11, rpio.INPUT);
+rpio.open(17, rpio.INPUT);
 
 const PATHS = {
   root: path.join(__dirname, "../../../../../"),
