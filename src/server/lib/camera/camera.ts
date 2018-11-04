@@ -1,6 +1,7 @@
 import path from 'path'
 import shell from "shelljs"
 import rpio from "rpio";
+import uuidv4 from 'uuid/v4'
 rpio.init({mapping: 'gpio'});
 rpio.open(17, rpio.INPUT);
 
@@ -25,7 +26,7 @@ class Camera {
   }
 
   public getPicture = (): string => {
-    let filename = `${PATHS.images}${new Date().toISOString()}.png`
+    let filename = `${PATHS.images}${uuidv4()}.png`
 
     shell.exec(`raspistill -vf -hf -n -o ${filename} -t 1`); 
     console.log('successfully took image \n')

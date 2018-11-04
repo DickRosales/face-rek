@@ -29,7 +29,7 @@ export function uploadImage(filePath: string): Promise<Object> {
         },
         (error, data) => {
           if (error) {
-            console.log('failed to upload object in s3 \n', error.message)
+            console.log('failed to upload object in s3 \n')
             reject(error)
           } else {
             console.log('successful to upload object in s3 \n')

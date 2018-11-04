@@ -28,7 +28,7 @@ class Control {
       if(compareFaces['FaceMatches'].length && uploadedImage) {
         res.status(200).json({
           status: 200,
-          message: 'Unsuccessful Face Match',
+          message: 'Successful Face Match',
           error: false,
           errorMessage: '',
           faceMatch: true
@@ -36,22 +36,31 @@ class Control {
       } else {
         res.status(403).json({
           status: 403,
-          message: 'Successful Face Match',
+          message: 'Unsuccessful Face Match',
           error: false,
           errorMessage: '',
           faceMatch: false
         })
       }
-
     } catch (err) {
       console.log(err)
-      res.status(406).json({
-        status: 406,
-        message: 'Error Processing the Image',
-        error: true,
-        errorMessage: err.message,
-        faceMatch: false
-      })
+      if (err.code === 'InvalidParameterException') {
+        res.status(400).json({
+          status: 400,
+          message: 'No Faces detected in source',
+          error: true,
+          errorMessage: err.message,
+          faceMatch: false
+        })
+      } else {
+        res.status(406).json({
+          status: 406,
+          message: 'Error Processing the Image',
+          error: true,
+          errorMessage: err.message,
+          faceMatch: false
+        })
+      }
     }
   }
 

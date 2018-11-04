@@ -6,12 +6,6 @@ AWS.config.update({
   region: 'us-west-2'
 });
 const rekognition = new AWS.Rekognition();
-
-// const PATHS = {
-//   root: path.join(__dirname, "../../"),
-//   images: path.join(__dirname, "../../tmp/")
-// }
-
 class Recognition {
   public compareFaces = (filePath: string): Promise<Object> => {
     var params = {
@@ -34,9 +28,12 @@ class Recognition {
 
     return new Promise((resolve, reject) => {
       rekognition.compareFaces(params, (error, data) => {
-        if (error) {
-          console.log('Faces detection failed', error)
-          reject();
+        if (error.statusCode === 400) {
+          console.log('No Faces detected in source')
+          reject(error);
+        } else if (error) {
+          console.log('Faces detection failed')
+          reject(error);
         } else {
           console.log('Faces detection success')
           resolve(data)

@@ -69,7 +69,8 @@
     "rpio": "0.9.23",
     "sha.js": "^2.4.11",
     "shelljs": "0.8.2",
-    "styled-components": "^3.4.9"
+    "styled-components": "^3.4.9",
+    "uuid": "3.3.2"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
