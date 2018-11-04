@@ -27,7 +27,7 @@ class Camera {
   public getPicture = (): string => {
     let filename = `${PATHS.images}${new Date().toISOString()}.png`
 
-    shell.exec(`raspistill -vf -hf -o --nopreview --timeout 0 ${filename}`);
+    shell.exec(`raspistill -vf -hf -n -o ${filename} -t 1`); 
     console.log('successfully took image \n')
 
     return filename
