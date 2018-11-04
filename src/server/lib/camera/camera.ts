@@ -1,17 +1,15 @@
 import path from 'path'
-// import { uploadImage } from '../upload'
 import shell from "shelljs"
-// import { Gpio } from 'onoff'
 import rpio from "rpio";
 rpio.init({mapping: 'gpio'});
 rpio.open(17, rpio.INPUT);
 
 const PATHS = {
   root: path.join(__dirname, "../../../../../"),
-  images: path.join(__dirname, "../../../../../tmp/")
+  images: path.join(__dirname, "../../../../tmp/")
 }
 
-export default class Camera {
+class Camera {
   public turnOn = (): string => {
     this.setWatcher()
 
@@ -27,9 +25,10 @@ export default class Camera {
   }
 
   public getPicture = (): string => {
-    let filename = this.takePicture()
+    let filename = `${PATHS.images}${new Date().toISOString()}.png`
 
-    console.log('motion: ', this.getValue())
+    shell.exec(`raspistill -vf -hf -o --nopreview --timeout 0 ${filename}`);
+    console.log('successfully took image \n')
 
     return filename
   }
@@ -40,13 +39,17 @@ export default class Camera {
     return this.getValue()
   }
 
-  private takePicture = (): string => {
-    let filename = `${PATHS.images}${new Date().toISOString()}.png`
-
-    shell.exec(`raspistill -vf -hf -o ${filename}`);
-
-    return filename
-  }
+  // private deletePicture = (): string => {
+    // fs.unlink('./' + name, function(error) {
+    //     if (error) {
+    //         reject();
+    //         console.log('error deleting object');
+    //     } else {
+    //         resolve();
+    //         console.log('object deleted from disk');
+    //     }
+    // });
+  // }
 
   private getValue = (): any => {
     return rpio.read(17);
@@ -56,9 +59,16 @@ export default class Camera {
     rpio.poll(17, (pin) => {
       console.log('motion: ', pin);
 
-      let filename = this.takePicture();
+      // let filename = this.takePicture();
+      // shell.echo(`image taken: ${filename}`);
 
-      shell.echo(`image taken: ${filename}`);
+      // uploadImage(filename).then((res) => {
+    
+      //   return res
+      // }).then((res) => {
+    
+      //   return res
+      // })
 
     }, rpio.POLL_HIGH);
   }
@@ -67,3 +77,5 @@ export default class Camera {
     rpio.close(17);
   }
 }
+
+export default new Camera()

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist/client/",
+    "outDir": "dist",
     "module": "esnext",
     "target": "es5",
     "lib": ["es6", "dom", "esnext.asynciterable"],
@@ -21,7 +21,7 @@
       { "name": "tslint-language-service"}
     ]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/client/*"],
   "exclude": [
     "src/server/**",
     "node_modules/**",

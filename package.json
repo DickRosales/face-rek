@@ -9,11 +9,11 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "start": "yarn build && yarn server",
-    "client": "parcel -p 3005 src/client/index.html \n\n",
-    "server": "node dist/server/server.js \n\n",
+    "start": "yarn build:server && yarn server",
+    "client": "parcel -p 3005 index.html \n\n",
+    "server": "node dist/server/app.js \n\n",
     "info": "npm-scripts-info",
-    "build": "run-s clean && run-p build:server",
+    "build": "run-s clean && run-p build:server && run-p build:client",
     "build:server": "tsc -p tsconfig.server.json",
     "build:client": "tsc -p tsconfig.client.json",
     "fix": "run-s fix:*",
@@ -33,7 +33,7 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && npm i",
-    "clean": "trash build test",
+    "clean": "trash dist",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
     "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('face-rek must be installed with Yarn: https://yarnpkg.com/')\""
@@ -57,7 +57,7 @@
   "dependencies": {
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
-    "azure-storage": "2.10.1",
+    "aws-sdk": "2.344.0",
     "compression": "1.7.3",
     "dotenv": "6.1.0",
     "express": "4.16.4",

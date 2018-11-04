@@ -9,7 +9,7 @@ import dotenv from "dotenv"
 
 // Controllers (route handlers)
 import Control from "./control"
-const control = new Control();
+
 
 // Set Env Variables
 dotenv.config()
@@ -26,17 +26,23 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(lusca.xframe("SAMEORIGIN"))
 app.use(lusca.xssProtection(true))
 
+// console.log(path.join(__dirname, "../../dist/"))
+
+// app.get('/', (req: Request, res: Response) => {
+  // res.sendFile(path.join(__dirname,'../../index.html'))
+// })
+
 // app.use(
-//   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+//   express.static(path.join(__dirname, "../../dist/"), { maxAge: 31557600000 })
 // )
 
 /**
  * API routes.
  */
-app.get("/api/takePicture", control.takePicture )
-app.get("/api/turnOn", control.turnOn )
-app.get("/api/turnOff", control.turnOff )
-app.get("/api/checkMotion", control.checkMotion )
+app.get("/api/takePicture", Control.takePicture )
+// app.get("/api/turnOn", control.turnOn )
+// app.get("/api/turnOff", control.turnOff )
+// app.get("/api/checkMotion", control.checkMotion )
 
 /**
  * Start Express server.
