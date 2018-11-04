@@ -42,14 +42,14 @@ class Control {
           faceMatch: false
         })
       }
-    } catch (err) {
-      console.log(err)
-      if (err.code === 'InvalidParameterException') {
+    } catch (error) {
+      console.log(error)
+      if (error.code === 'InvalidParameterException') {
         res.status(400).json({
           status: 400,
           message: 'No Faces detected in source',
           error: true,
-          errorMessage: err.message,
+          errorMessage: error.message,
           faceMatch: false
         })
       } else {
@@ -57,7 +57,7 @@ class Control {
           status: 406,
           message: 'Error Processing the Image',
           error: true,
-          errorMessage: err.message,
+          errorMessage: error.message,
           faceMatch: false
         })
       }

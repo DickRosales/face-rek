@@ -28,7 +28,7 @@ class Recognition {
 
     return new Promise((resolve, reject) => {
       rekognition.compareFaces(params, (error, data) => {
-        if (error.statusCode === 400) {
+        if (error && error.code === 'InvalidParameterException') {
           console.log('No Faces detected in source')
           reject(error);
         } else if (error) {
