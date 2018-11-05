@@ -43,6 +43,7 @@ app.get("/api/takePicture", Control.takePicture )
 // app.get("/api/turnOn", control.turnOn )
 // app.get("/api/turnOff", control.turnOff )
 // app.get("/api/checkMotion", control.checkMotion )
+app.get("/api/listImages", Control.listImages )
 
 /**
  * Start Express server.

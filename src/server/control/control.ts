@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { uploadImage } from '../lib/upload'
+import Upload from '../lib/upload'
 import Camera from '../lib/camera';
 import Recognition from '../lib/recognition';
 class Control {
@@ -22,7 +22,7 @@ class Control {
   public takePicture = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const filename = await Camera.getPicture()
-      const uploadedImage = await uploadImage(filename);
+      const uploadedImage = await Upload.uploadImage(filename);
       const compareFaces = await Recognition.compareFaces(filename);
 
       if(compareFaces['FaceMatches'].length && uploadedImage) {
@@ -68,6 +68,19 @@ class Control {
   public checkMotion = (req: Request, res: Response) => {
     res.send(`pin value: ${Camera.checkMotion()}`)
   }
+
+  /* tslint:disable-next-line */
+  public listImages = async (req: Request, res: Response, next: NextFunction) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    
+    let response = await Upload.listImages()
+
+    let imageUrls = response['Contents'].map((image) => {
+      return `https://s3-us-west-2.amazonaws.com/satans-pi/${image.Key}`
+    })
+
+    res.send(imageUrls)
+  } 
 }
 
 export default new Control()

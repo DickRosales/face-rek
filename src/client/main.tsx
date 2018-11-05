@@ -1,11 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
 import { injectGlobal, ThemeProvider, theme } from "./theme";
-
-import Section from "./components/section";
-import Quote from "./components/quote";
-import QuoteAuthor from "./components/quote-author";
 
 injectGlobal`
     * { margin: 0; padding: 0; }
@@ -16,28 +11,58 @@ interface HelloProps {
   framework: string;
 }
 
-class Hello extends React.Component<HelloProps, {}> {
+interface HelloState {
+  isLoaded: boolean,
+  imageUrls: any,
+  error: any
+}
+
+class App extends React.Component<HelloProps, HelloState> {
+  constructor () {
+    super()
+    this.state = {
+      isLoaded: false,
+      imageUrls: [],
+      error: null
+    }
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:3000/api/listImages")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            imageUrls: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
   render() {
+    let { isLoaded, imageUrls } = this.state
+
     return (
-      <Section>
-        <Quote>
-          “I personally would rather do the existentially essential things in
-          life on foot. If you live in England and your girlfriend is in Sicily,
-          and it is clear you want to marry her, then you should walk to Sicily
-          to propose. For these things travel by car or aeroplane is not the
-          right thing.”
-          <QuoteAuthor>
-            Werner Herzog, <em>Of Walking in Ice</em>
-          </QuoteAuthor>
-        </Quote>
-      </Section>
+      <div>
+        Images: 
+        <ul>
+          { imageUrls.map((image, index) => <li key={index}><a href={image}>{ image }</a></li>)}
+        </ul>
+      </div>
     );
   }
 }
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <Hello compiler="TypeScript" framework="React" />
+    <App compiler="TypeScript" framework="React" />
   </ThemeProvider>,
   document.getElementById("app")
 );

@@ -1,1 +1,1 @@
-export { uploadImage, deleteImage, getUrl } from './upload'
+export { default } from './upload';
