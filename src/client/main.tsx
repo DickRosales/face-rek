@@ -33,7 +33,7 @@ class App extends React.Component<HelloProps, HelloState> {
   }
 
   componentDidMount() {
-    fetch(`192.168.0.16:3000/api/listImages`)
+    fetch(`http://192.168.0.16:3000/api/listImages`)
       .then(res => res.json())
       .then(
         (result) => {

@@ -16,15 +16,19 @@ const PATHS = {
 class Camera {
   public turnOn = async (socket): Promise<void> => {
     rpio.poll(17, async (pin) => {
-      const filename = await this.getPicture()
-      const uploadedImage = await Upload.uploadImage(filename)
-      const compareFaces = await Recognition.compareFaces(filename)
-      const faceMatch = (compareFaces['FaceMatches'].length && uploadedImage) ? true : false
-  
-      socket.emit({
-        url: `https://s3-us-west-2.amazonaws.com/satans-pi/${path.basename(filename)}`,
-        faceMatch: faceMatch
-      })
+      try {
+        const filename = await this.getPicture()
+        const uploadedImage = await Upload.uploadImage(filename)
+        const compareFaces = await Recognition.compareFaces(filename)
+        const faceMatch = (compareFaces['FaceMatches'].length && uploadedImage) ? true : false
+    
+        socket.emitImage({
+          url: `https://s3-us-west-2.amazonaws.com/satans-pi/${path.basename(filename)}`,
+          faceMatch: faceMatch
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }, rpio.POLL_HIGH);
   }
 
