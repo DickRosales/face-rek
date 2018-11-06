@@ -5,24 +5,31 @@ import uuidv4 from 'uuid/v4'
 rpio.init({mapping: 'gpio'});
 rpio.open(17, rpio.INPUT);
 
+import Upload from '../upload'
+import Recognition from '../recognition';
+
 const PATHS = {
   root: path.join(__dirname, "../../../../../"),
   images: path.join(__dirname, "../../../../tmp/")
 }
 
 class Camera {
-  public turnOn = (): string => {
-    this.setWatcher()
-
-    console.log('motion: ', this.getValue())
-
-    return 'turnOn'
+  public turnOn = async (socket): Promise<void> => {
+    rpio.poll(17, async (pin) => {
+      const filename = await this.getPicture()
+      const uploadedImage = await Upload.uploadImage(filename)
+      const compareFaces = await Recognition.compareFaces(filename)
+      const faceMatch = (compareFaces['FaceMatches'].length && uploadedImage) ? true : false
+  
+      socket.emit({
+        url: `https://s3-us-west-2.amazonaws.com/satans-pi/${path.basename(filename)}`,
+        faceMatch: faceMatch
+      })
+    }, rpio.POLL_HIGH);
   }
 
-  public turnOff = (): string => {
-    this.unSetWatcher()
-
-    return 'turnOff'
+  public turnOff = (): void => {
+    rpio.close(17);
   }
 
   public getPicture = (): string => {
@@ -54,28 +61,6 @@ class Camera {
 
   private getValue = (): any => {
     return rpio.read(17);
-  }
-
-  private setWatcher = (): void => {
-    rpio.poll(17, (pin) => {
-      console.log('motion: ', pin);
-
-      // let filename = this.takePicture();
-      // shell.echo(`image taken: ${filename}`);
-
-      // uploadImage(filename).then((res) => {
-    
-      //   return res
-      // }).then((res) => {
-    
-      //   return res
-      // })
-
-    }, rpio.POLL_HIGH);
-  }
-
-  private unSetWatcher = (): void => {
-    rpio.close(17);
   }
 }
 

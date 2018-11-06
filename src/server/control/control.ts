@@ -2,20 +2,32 @@ import { Request, Response, NextFunction } from 'express';
 import Upload from '../lib/upload'
 import Camera from '../lib/camera';
 import Recognition from '../lib/recognition';
+// import Socket from '../lib/socket';
+
 class Control {
 
   /* tslint:disable-next-line */
   public turnOn = (req: Request, res: Response) => {
-    let response = Camera.turnOn()
+    Camera.turnOn(res.socket)
 
-    res.send(response)
+    res.status(200).json({
+      status: 200,
+      message: 'Listening for motion',
+      error: false,
+      errorMessage: ''
+    })
   } 
 
   /* tslint:disable-next-line */
   public turnOff = (req: Request, res: Response) => {
-    let response = Camera.turnOff()
+    Camera.turnOff()
 
-    res.send(response)
+    res.status(200).json({
+      status: 200,
+      message: 'Not listening for motion',
+      error: false,
+      errorMessage: ''
+    })
   } 
 
   /* tslint:disable-next-line */
@@ -29,6 +41,7 @@ class Control {
         res.status(200).json({
           status: 200,
           message: 'Successful Face Match',
+          image: filename,
           error: false,
           errorMessage: '',
           faceMatch: true
