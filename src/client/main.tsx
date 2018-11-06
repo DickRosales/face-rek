@@ -51,9 +51,9 @@ class App extends React.Component<HelloProps, HelloState> {
       )
 
     this.socket.on('connect', () => {
-      this.socket.on('newPicture', image => {
+      this.socket.on('newPicture', data => {
         this.setState({
-          mainImage: image
+          mainImage: data.url
         })
       });
       console.log('Connected', this.socket);

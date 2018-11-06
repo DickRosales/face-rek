@@ -15,6 +15,7 @@ class Socket {
   }
 
   public emitImage = (data)  => {
+    console.log('newPicture', data)
     this.socket.emit('newPicture', data)
   }
 }
